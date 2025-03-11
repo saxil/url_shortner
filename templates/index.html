@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL Shortener</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>URL Shortener</h1>
+        <form method="POST">
+            <input type="url" name="original_url" placeholder="Enter URL" required>
+            <button type="submit">Shorten</button>
+        </form>
+        {% if shortened_link %}
+            <p>Shortened URL: <a href="{{ shortened_link }}" target="_blank">{{ shortened_link }}</a></p>
+            <form action="/unshorten" method="POST">
+                <input type="hidden" name="short_url" value="{{ shortened_link.split('/')[-1] }}">
+                <button type="submit">Unshorten</button>
+            </form>
+        {% endif %}
+        {% if unshortened_link %}
+            <p>Original URL: <a href="{{ unshortened_link }}" target="_blank">{{ unshortened_link }}</a></p>
+        {% endif %}
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
